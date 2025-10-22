@@ -160,6 +160,28 @@ services:
           cpus: '1.0'
           memory: 3072M
 
+  chatwoot_migrate:
+    image: chatwoot/chatwoot:v4.0.2
+    depends_on:
+      - chatwoot_app
+    networks: [general_network]
+    entrypoint: >
+      /bin/sh -c "
+      echo '⏳ Ejecutando migraciones Chatwoot...' &&
+      bundle exec rails db:chatwoot_prepare &&
+      echo '✅ Migraciones Chatwoot completas.'"
+    environment:
+      RAILS_ENV: production
+      POSTGRES_HOST: postgres
+      POSTGRES_USERNAME: postgres
+      POSTGRES_PASSWORD: ${PASSWORD_32}
+      POSTGRES_DATABASE: chatwoot
+    deploy:
+      restart_policy:
+        condition: none
+      placement:
+        constraints: [ node.role == manager ]
+
   n8n_editor:
     image: n8nio/n8n:1.108.2
     environment:
