@@ -1,0 +1,45 @@
+{
+  "version": "3",
+  "templates": [
+    {
+      "id": 1,
+      "type": 2,
+      "title": "Base — Postgres + Redis",
+      "description": "Despliega la base de datos Postgres (pgvector) y Redis. Primero despliega esto. Cuando esté healthy, despliega 'Apps'.",
+      "categories": ["database", "cache"],
+      "platform": "linux",
+      "logo": "https://raw.githubusercontent.com/tu-org/tu-repo/main/assets/base.png",
+      "repository": {
+        "url": "https://github.com/tu-org/tu-repo",
+        "stackfile": "stacks/base.yaml"
+      },
+      "env": [
+        {
+          "name": "PASSWORD_32",
+          "label": "PASSWORD_32 (DB/Redis)",
+          "default": "GBMmWvoKPt9JKHVaPsTWwmA2vgmavYcS"
+        }
+      ],
+      "note": "Requiere redes externas: general_network. Son creadas por el bootstrap."
+    },
+    {
+      "id": 2,
+      "type": 2,
+      "title": "Apps — RabbitMQ + MinIO + Chatwoot + n8n",
+      "description": "Despliega las apps de uso. Ejecutar SOLO después de 'Base'.",
+      "categories": ["messaging", "storage", "automation", "support"],
+      "platform": "linux",
+      "logo": "https://raw.githubusercontent.com/tu-org/tu-repo/main/assets/apps.png",
+      "repository": {
+        "url": "https://github.com/tu-org/tu-repo",
+        "stackfile": "stacks/apps.yaml"
+      },
+      "env": [
+        { "name": "DOMAIN", "label": "DOMAIN", "default": "example.com" },
+        { "name": "EMAIL", "label": "EMAIL (Let's Encrypt)", "default": "admin@example.com" },
+        { "name": "PASSWORD_32", "label": "PASSWORD_32 (shared secret)", "default": "GBMmWvoKPt9JKHVaPsTWwmA2vgmavYcS" }
+      ],
+      "note": "Requiere redes externas: traefik_public y general_network creadas por el bootstrap."
+    }
+  ]
+}
