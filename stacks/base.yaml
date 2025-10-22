@@ -33,6 +33,29 @@ services:
           cpus: '1'
           memory: 1024M
 
+  db_init:
+    image: postgres:16
+    depends_on:
+      - postgres
+    networks: [general_network]
+    entrypoint: >
+      bash -c "
+      echo '⏳ Esperando Postgres...' &&
+      for i in {1..30}; do
+        pg_isready -h postgres -U postgres >/dev/null 2>&1 && break || sleep 2;
+      done &&
+      echo '🟢 Postgres listo, creando bases...' &&
+      psql -h postgres -U postgres -tc \"SELECT 1 FROM pg_database WHERE datname='chatwoot'\" | grep -q 1 || psql -h postgres -U postgres -c \"CREATE DATABASE chatwoot\" &&
+      psql -h postgres -U postgres -tc \"SELECT 1 FROM pg_database WHERE datname='n8n_fila'\" | grep -q 1 || psql -h postgres -U postgres -c \"CREATE DATABASE n8n_fila\" &&
+      echo '✅ Bases creadas correctamente.'"
+    environment:
+      PGPASSWORD: ${PASSWORD_32}
+    deploy:
+      restart_policy:
+        condition: none
+      placement:
+        constraints: [ node.role == manager ]
+
 volumes:
   postgres_data: { external: true }
   redis_data:    { external: true }
