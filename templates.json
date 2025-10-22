@@ -8,10 +8,7 @@
       "description": "Despliega la base de datos Postgres (pgvector) y Redis. Primero despliega esto. Cuando esté healthy, despliega 'Apps'.",
       "categories": ["database", "cache"],
       "platform": "linux",
-      "repository": {
-        "url": "https://raw.githubusercontent.com/FrontierAI-Academy/auto-deploy-custom-apps/main/stacks/base.yaml",
-        "stackfile": ""
-      },
+      "composefile": "https://raw.githubusercontent.com/FrontierAI-Academy/auto-deploy-custom-apps/main/stacks/base.yaml",
       "env": [
         {
           "name": "PASSWORD_32",
@@ -28,10 +25,7 @@
       "description": "Despliega las apps de uso. Ejecutar SOLO después de 'Base'.",
       "categories": ["messaging", "storage", "automation", "support"],
       "platform": "linux",
-      "repository": {
-        "url": "https://raw.githubusercontent.com/FrontierAI-Academy/auto-deploy-custom-apps/main/stacks/apps.yaml",
-        "stackfile": ""
-      },
+      "composefile": "https://raw.githubusercontent.com/FrontierAI-Academy/auto-deploy-custom-apps/main/stacks/apps.yaml",
       "env": [
         { "name": "DOMAIN", "label": "DOMAIN", "default": "example.com" },
         { "name": "EMAIL", "label": "EMAIL (Let's Encrypt)", "default": "admin@example.com" },
