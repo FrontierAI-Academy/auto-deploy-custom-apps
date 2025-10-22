@@ -8,10 +8,9 @@
       "description": "Despliega la base de datos Postgres (pgvector) y Redis. Primero despliega esto. Cuando esté healthy, despliega 'Apps'.",
       "categories": ["database", "cache"],
       "platform": "linux",
-      "logo": "https://raw.githubusercontent.com/tu-org/tu-repo/main/assets/base.png",
       "repository": {
-        "url": "https://github.com/tu-org/tu-repo",
-        "stackfile": "stacks/base.yaml"
+        "url": "https://raw.githubusercontent.com/FrontierAI-Academy/auto-deploy-custom-apps/main/stacks/base.yaml",
+        "stackfile": ""
       },
       "env": [
         {
@@ -29,10 +28,9 @@
       "description": "Despliega las apps de uso. Ejecutar SOLO después de 'Base'.",
       "categories": ["messaging", "storage", "automation", "support"],
       "platform": "linux",
-      "logo": "https://raw.githubusercontent.com/tu-org/tu-repo/main/assets/apps.png",
       "repository": {
-        "url": "https://github.com/tu-org/tu-repo",
-        "stackfile": "stacks/apps.yaml"
+        "url": "https://raw.githubusercontent.com/FrontierAI-Academy/auto-deploy-custom-apps/main/stacks/apps.yaml",
+        "stackfile": ""
       },
       "env": [
         { "name": "DOMAIN", "label": "DOMAIN", "default": "example.com" },
