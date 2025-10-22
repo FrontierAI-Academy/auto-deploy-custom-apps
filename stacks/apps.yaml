@@ -164,6 +164,7 @@ services:
     image: chatwoot/chatwoot:v4.0.2
     depends_on:
       - chatwoot_app
+      - redis
     networks: [general_network]
     entrypoint: >
       /bin/sh -c "
@@ -172,10 +173,14 @@ services:
       echo '✅ Migraciones Chatwoot completas.'"
     environment:
       RAILS_ENV: production
+      NODE_ENV: production
+      INSTALLATION_ENV: docker
       POSTGRES_HOST: postgres
       POSTGRES_USERNAME: postgres
       POSTGRES_PASSWORD: ${PASSWORD_32}
       POSTGRES_DATABASE: chatwoot
+      SECRET_KEY_BASE: ${PASSWORD_32}
+      REDIS_URL: redis://redis:6379
     deploy:
       restart_policy:
         condition: none
