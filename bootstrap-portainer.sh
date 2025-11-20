@@ -20,8 +20,19 @@ export DEBIAN_FRONTEND=noninteractive
 apt-get update -y
 apt-get install -y curl jq ca-certificates >/dev/null 2>&1 || true
 if ! command -v docker >/dev/null 2>&1; then
-  curl -fsSL https://get.docker.com -o get-docker.sh
-  sh get-docker.sh
+  yellow "Installing Docker 24.0.9 (stable version for Swarm)..."
+
+  # Add official Docker repo (Ubuntu 22.04 Jammy)
+  sudo install -m 0755 -d /etc/apt/keyrings
+  curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+  echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu jammy stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+
+  sudo apt update -y
+  sudo apt install -y \
+    docker-ce=5:24.0.9-1~ubuntu.22.04~jammy \
+    docker-ce-cli=5:24.0.9-1~ubuntu.22.04~jammy \
+    containerd.io \
+    docker-compose-plugin
 fi
 
 # --- Swarm / networks / volumes ------------------------------------------
